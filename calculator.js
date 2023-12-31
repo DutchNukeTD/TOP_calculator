@@ -72,18 +72,12 @@ function calculate(string) {
 for (let i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener("mousedown", function() {
         if (buttons[i].classList.contains('Number')) { 
-            // rgbColor = window.getComputedStyle(buttons[i]).backgroundColor;
-            // rgbColor = rgbColor.replace('rgb(', '').replace(')', '').split(',');
-            // buttons[i].style.backgroundColor = `rgb(${rgbColor[0]*1.1}, ${rgbColor[1]*1.1}, ${rgbColor[2]*1.1})`;
             buttons[i].style.backgroundColor = 'rgb(170, 170, 170)';
             
         } else if (buttons[i].classList.contains('Operator')) {
-            // rgbColor = window.getComputedStyle(buttons[i]).backgroundColor;
-            // rgbColor = rgbColor.replace('rgb(', '').replace(')', '').split(',');
-            // buttons[i].style.backgroundColor = `rgb(${rgbColor[0]*0.9}, ${rgbColor[1]*0.9}, ${rgbColor[2]*0.9})`;
             buttons[i].style.backgroundColor = 'rgb(200, 131, 0)';
 
-        } else { // || buttons[i].classList.contains('Extra'))  {
+        } else {
             buttons[i].style.backgroundColor = 'rgb(145, 145, 145)';
         }
     });
@@ -142,9 +136,13 @@ for (let i = 0; i < buttons.length; i++) {
                     buttons[0].innerHTML = 'AC'; // AC button changed back from C to AC
                 
                 } else {
-                    a = screenValue.innerHTML;
-                    a = a + buttons[i].innerHTML;
-                    screenValue.innerHTML = a;
+                    if (screenValue.innerHTML.length > 12) {
+                        // pass --> to much numbers.
+                    } else {
+                        a = screenValue.innerHTML;
+                        a = a + buttons[i].innerHTML;
+                        screenValue.innerHTML = a;                        
+                    }
                 }
 
 
@@ -194,9 +192,13 @@ for (let i = 0; i < buttons.length; i++) {
                     buttons[0].innerHTML = 'AC'; // AC button changed back from C to AC
 
                 } else { // if numbers 
-                    b = screenValue.innerHTML;
-                    b = b + buttons[i].innerHTML;
-                    screenValue.innerHTML = b;
+                    if (screenValue.innerHTML.length > 12) {
+                        // pass --> to much numbers.
+                    } else {
+                        b = screenValue.innerHTML;
+                        b = b + buttons[i].innerHTML;
+                        screenValue.innerHTML = b;
+                    }
                 }
             }
 
