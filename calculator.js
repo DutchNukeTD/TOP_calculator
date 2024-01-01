@@ -56,12 +56,15 @@ function calculate(string) {
         console.log('b = ' + b);
         
     } else if (operator === '÷') {
-        a = a / multiply; // --> Because it gets multiplied above
-        b = b / multiply; // --> Because it gets multiplied above
-        result = a / b; 
+        if (b == 0) {
+            result = 'No number';
+        } else {
+            a = a / multiply; // --> Because it gets multiplied above
+            b = b / multiply; // --> Because it gets multiplied above
+            result = a / b; 
+        }
 
     } else {
-        console.log('dit moet niet geprint worden.')
         result = result / multiply;
     }
 
@@ -72,18 +75,12 @@ function calculate(string) {
 for (let i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener("mousedown", function() {
         if (buttons[i].classList.contains('Number')) { 
-            // rgbColor = window.getComputedStyle(buttons[i]).backgroundColor;
-            // rgbColor = rgbColor.replace('rgb(', '').replace(')', '').split(',');
-            // buttons[i].style.backgroundColor = `rgb(${rgbColor[0]*1.1}, ${rgbColor[1]*1.1}, ${rgbColor[2]*1.1})`;
             buttons[i].style.backgroundColor = 'rgb(170, 170, 170)';
             
         } else if (buttons[i].classList.contains('Operator')) {
-            // rgbColor = window.getComputedStyle(buttons[i]).backgroundColor;
-            // rgbColor = rgbColor.replace('rgb(', '').replace(')', '').split(',');
-            // buttons[i].style.backgroundColor = `rgb(${rgbColor[0]*0.9}, ${rgbColor[1]*0.9}, ${rgbColor[2]*0.9})`;
             buttons[i].style.backgroundColor = 'rgb(200, 131, 0)';
 
-        } else { // || buttons[i].classList.contains('Extra'))  {
+        } else {
             buttons[i].style.backgroundColor = 'rgb(145, 145, 145)';
         }
     });
@@ -142,15 +139,25 @@ for (let i = 0; i < buttons.length; i++) {
                     buttons[0].innerHTML = 'AC'; // AC button changed back from C to AC
                 
                 } else {
-                    a = screenValue.innerHTML;
-                    a = a + buttons[i].innerHTML;
-                    screenValue.innerHTML = a;
+                    if (screenValue.innerHTML.length > 12) {
+                        // pass --> to much numbers.
+                    } else {
+                        if (equalClicked == true) {
+                            a = buttons[i].innerHTML;
+                            screenValue.innerHTML = a; 
+                            equalClicked = false;
+                        } else {
+                            a = screenValue.innerHTML;
+                            a = a + buttons[i].innerHTML;
+                            screenValue.innerHTML = a;                        
+                        }
+                    }
                 }
 
 
             // b value     
             } else {  
-                if (b === 0) {
+                if (b == 0) {
                     if (!(buttons[i].innerHTML == 0)) { 
                         if (buttons[i].classList.contains('Extra') || buttons[i].classList.contains('Operator')) {
                             // pass 
@@ -163,7 +170,12 @@ for (let i = 0; i < buttons.length; i++) {
                             b = screenValue.innerHTML;
                             buttons[0].innerHTML = 'C'; // AC button to change to C
                         }
-                    } 
+                    } else if (!(screenValue.innerHTML == 0)) {
+                        console.log('screenValue = ' + screenValue.innerHTML);
+                        screenValue.innerHTML = buttons[i].innerHTML;
+                        b = screenValue.innerHTML;
+                        buttons[0].innerHTML = 'C'; // AC button to change to C
+                    }                    
                 } else if (buttons[i].innerHTML == ',') {
                     if (screenValue.innerHTML.includes(',')) {
                         // pass
@@ -194,9 +206,20 @@ for (let i = 0; i < buttons.length; i++) {
                     buttons[0].innerHTML = 'AC'; // AC button changed back from C to AC
 
                 } else { // if numbers 
-                    b = screenValue.innerHTML;
-                    b = b + buttons[i].innerHTML;
-                    screenValue.innerHTML = b;
+                    if (screenValue.innerHTML.length > 12) {
+                        // pass --> to much numbers.
+                    } else {
+                        // if (operatorClicked == true) {
+                        //     operatorClicked = false;
+                        //     console.log(operatorClicked);
+                        //     b = buttons[i].innerHTML;
+                        //     screenValue.innerHTML = b; 
+                        // } else {
+                            b = screenValue.innerHTML;
+                            b = b + buttons[i].innerHTML;
+                            screenValue.innerHTML = b;
+                        // }
+                    }
                 }
             }
 
@@ -216,15 +239,14 @@ for (let i = 0; i < buttons.length; i++) {
                     console.log('b = ' + b)
                     screenValue.innerHTML = calculate(string);
                     a = screenValue.innerHTML;
-                    b = 0;
+                    // b = 0;
                     operatorClicked = false;
                     equalClicked = true;
                 }
 
             } else {
+                equalClicked = false;
                 a = screenValue.innerHTML;
-                screenValue.innerHTML = buttons[i].innerHTML;
-                screenValue.innerHTML = b;
                 operatorClicked = true;
                 operator = buttons[i].innerHTML;
             }
